@@ -1,0 +1,6 @@
+@auth16_HostAddress = http://localhost:5093
+
+GET {{auth16_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
