@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using auth16.Data;
+using auth16.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
-var JwtSettins = builder.Configuration.GetSection("JwtSettins");
+
+var JwtSettins = builder.Configuration.GetSection("JwtSettings");
 var secretKey = JwtSettins["SecretKey"];
 builder.Services.AddAuthentication(options =>
 {
@@ -35,7 +37,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Defaultconnection"));
 });
-
+builder.Services.AddScoped<JwtServices>(); 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()){
